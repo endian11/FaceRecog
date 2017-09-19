@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">人脸识别登录</string>
+    <string name="login_account">请输入编号</string>
+</resources>

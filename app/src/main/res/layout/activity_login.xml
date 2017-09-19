@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+            android:background="@drawable/loginbg"
+              >
+    <ImageButton
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/logo"
+        />
+
+    <facemeet.cigit.com.facedemet.customview.RectSurfaceView
+        android:layout_marginTop="20dp"
+        android:layout_width="108dp"
+        android:layout_height="192dp"
+        android:id="@+id/login_surface"
+        android:layout_gravity="center_horizontal"/>
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="320dp"
+        android:background="@drawable/login_btn_bg"
+        android:text="立即登录"
+        android:id="@+id/face_detct"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:layout_height="100dp"/>
+
+    <!--<Button-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@android:drawable/btn_default"-->
+        <!--android:id="@+id/face_detct"-->
+        <!--android:visibility="gone"-->
+        android:text="刷脸登录"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pwd_login"
+        android:visibility="gone"
+        android:text="密码登录"/>
+
+</LinearLayout>

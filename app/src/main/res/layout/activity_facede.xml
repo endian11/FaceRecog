@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              android:padding="15dp"
+              android:background="#03e3e3">
+
+    <facemeet.cigit.com.facedemet.customview.MySurfaceView
+        android:layout_width="216dp"
+        android:layout_height="384dp"
+        android:id="@+id/mysurface"
+        android:layout_gravity="center"
+        android:background="#00000000"/>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="请把脸移入框内"/>
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/btn_take_pic"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
