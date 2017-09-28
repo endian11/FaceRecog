@@ -13,4 +13,13 @@
         android:textColor="@android:color/white"
         android:textSize="22sp"
         android:layout_height="50dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="还没有注册？"
+        android:id="@+id/tv_register"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal"/>
 </LinearLayout>

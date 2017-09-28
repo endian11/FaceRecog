@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="20dp"
+              android:gravity="center_vertical"
+
+              android:background="@drawable/loginbg">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/white"
+        android:text="服务器地址："/>
+    <EditText
+        style="@style/setting_act_edittext"
+        android:hint="设置IP(点分十进制形式)"
+        android:id="@+id/et_ip"
+        android:digits="0123456789."
+        />
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:layout_width="90dp"
+        android:textColor="@android:color/white"
+        android:textAlignment="textEnd"
+        android:layout_height="wrap_content"
+        android:text="端口号："/>
+    <EditText
+        style="@style/setting_act_edittext"
+        android:layout_marginTop="20dp"
+        android:hint="设置端口号"
+        android:id="@+id/et_port"
+        />
+
+</LinearLayout>
+
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:text="保存"/>
+
+
+</LinearLayout>

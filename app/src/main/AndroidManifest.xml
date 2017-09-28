@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".LoginAccount" android:screenOrientation="portrait"/>
+        <activity android:name=".SettingAct" android:screenOrientation="portrait"/>
 <!--
         <activity android:name=".FaceDeActivity" android:screenOrientation="portrait"/>
 -->

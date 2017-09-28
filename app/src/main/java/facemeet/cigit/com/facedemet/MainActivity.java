@@ -42,6 +42,7 @@ import facemeet.cigit.com.facedemet.customview.RectSurfaceView;
 import facemeet.cigit.com.facedemet.event.writeDoneEvent;
 import facemeet.cigit.com.facedemet.util.ConstantUtil;
 import facemeet.cigit.com.facedemet.util.HttpConnectionUtil;
+import facemeet.cigit.com.facedemet.util.SharedUtil;
 import facemeet.cigit.com.facedemet.util.UploadTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ll_login_part;
     Dialog dlg;
 
+    private String ip;
+    private String port;
+
     private IntentFilter intentFile = new IntentFilter("com.cigit.reg");
     private TextView tv_login;
     private Button btn_login;
@@ -64,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btn_login).setOnClickListener(this);
         Logger.addLogAdapter(new AndroidLogAdapter());
@@ -76,9 +79,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_reg_part = (RelativeLayout) findViewById(R.id.reg_part);
         btn_login = (Button) ll_login_part.findViewById(R.id.face_detct_lg);
         btn_login.setOnClickListener(this);
+        findViewById(R.id.btn_setting).setOnClickListener(this);
+        findViewById(R.id.tv_register).setOnClickListener(this);
         myRectSurface = (RectSurfaceView) findViewById(R.id.reg_surface);
         //初始化logger
+        initVlaue();
+    }
 
+    private void initVlaue() {
+        ip = SharedUtil.getValue(this,SharedUtil.IP,"", SharedUtil.ShareType.STRING);
+        port = SharedUtil.getValue(this,SharedUtil.PORT,"", SharedUtil.ShareType.STRING);
     }
 
     @Override
@@ -110,13 +120,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     protected String doInBackground(String... params) {
                         String res;
                         String url;
-                        if (ConstantUtil.recogType.equals(type)){
-                            url = ConstantUtil.url_recog;
-                            parmas.clear();
+                        String url1 = null;
+                        if (!TextUtils.isEmpty(ip) && !TextUtils.isEmpty(port)){
+                            url1 = "http://"+ip+":"+port;
                         }else{
-                            url = ConstantUtil.url_detect;
+                            Logger.e("ip地址和端口不合法");
+                            return null;
+                        }
+                        if (ConstantUtil.recogType.equals(type)){
+                                url = url1+ConstantUtil.url_recog;
+                                parmas.clear();
+
+                        }else{
+                            url = url1+ConstantUtil.url_detect;
 
                         }
+                        Logger.w("url:"+url);
                         res = HttpConnectionUtil.uploadFile(parmas,url,new String[]{params[0]});
                         return res;
                     }
@@ -164,21 +183,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
     //登录，跳转到刷新登录 还是密码登录UI
         switch (v.getId()){
+            case R.id.btn_setting:
+                Intent intent = new Intent(this,SettingAct.class);
+
+                startActivityForResult(intent,100);
+                break;
             case R.id.btn_login:
-                type = ConstantUtil.regType;
-                if (!TextUtils.isEmpty(et_name.getText().toString()) &&!TextUtils.isEmpty(et_number.getText().toString())){
-
-                    parmas.put("number",et_number.getText().toString());
-                    parmas.put("name",et_name.getText().toString());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-                    String currentDateandTime = sdf.format(new Date());
-                    String fileName = Environment.getExternalStorageDirectory().getPath() +
-                            "/reg_pic_" + currentDateandTime + ".jpg";
-
-                    myRectSurface.takePicture(fileName);
-                    dlg.show();
+                if (TextUtils.isEmpty(ip)|| TextUtils.isEmpty(port)){
+                    Toast.makeText(this,"请设置IP和端口号",Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(this,"请输入用户名和编号",Toast.LENGTH_SHORT).show();
+
+                    type = ConstantUtil.regType;
+                    if (!TextUtils.isEmpty(et_name.getText().toString()) &&!TextUtils.isEmpty(et_number.getText().toString())){
+
+                        parmas.put("number",et_number.getText().toString());
+                        parmas.put("name",et_name.getText().toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+                        String currentDateandTime = sdf.format(new Date());
+                        String fileName = Environment.getExternalStorageDirectory().getPath() +
+                                "/reg_pic_" + currentDateandTime + ".jpg";
+
+                        myRectSurface.takePicture(fileName);
+                        dlg.show();
+                    }else{
+                        Toast.makeText(this,"请输入用户名和编号",Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 break;
@@ -188,15 +217,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.face_detct_lg:
-                //刷脸登录UI
-                type = ConstantUtil.recogType;
-                dlg.show();
-                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-                String currentDateandTime1 = sdf1.format(new Date());
-                String fileName1 = Environment.getExternalStorageDirectory().getPath() +
-                        "/sample_picture_" + currentDateandTime1 + ".jpg";
-                myRectSurface.takePicture(fileName1);
+                if (TextUtils.isEmpty(ip)|| TextUtils.isEmpty(port)){
+                    Toast.makeText(this,"请点击右下角按钮设置IP和端口号",Toast.LENGTH_SHORT).show();
+                }else{
 
+                    //刷脸登录UI
+                    type = ConstantUtil.recogType;
+                    dlg.show();
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+                    String currentDateandTime1 = sdf1.format(new Date());
+                    String fileName1 = Environment.getExternalStorageDirectory().getPath() +
+                            "/sample_picture_" + currentDateandTime1 + ".jpg";
+                    myRectSurface.takePicture(fileName1);
+                }
+                break;
+            case R.id.tv_register:
+                ll_reg_part.setVisibility(View.VISIBLE);
+                ll_login_part.setVisibility(View.GONE);
+                break;
             default:
                 Log.e(TAG,"登录失败，default");
                 break;
@@ -206,9 +244,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (ll_login_part.getVisibility() == View.VISIBLE){
-            ll_reg_part.setVisibility(View.VISIBLE);
-            ll_login_part.setVisibility(View.GONE);
+        if (ll_reg_part.getVisibility() == View.VISIBLE){
+            ll_reg_part.setVisibility(View.GONE);
+            ll_login_part.setVisibility(View.VISIBLE);
         }else{
 
             super.onBackPressed();
@@ -246,4 +284,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100){
+            if (data !=null){
+
+                Bundle bundle = data.getExtras();
+                if (bundle != null){
+                    port = bundle.getString(SharedUtil.PORT);
+                    ip = bundle.getString(SharedUtil.IP);
+                }
+            }
+        }
+    }
 }
